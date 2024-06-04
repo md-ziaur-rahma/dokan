@@ -47,5 +47,11 @@
 		<true/>
 		<key>UIStatusBarHidden</key>
 		<false/>
+	    <key>NSMicrophoneUsageDescription</key>
+    	<string>Allow access to microphone for use features</string>
+    	<key>NSPhotoLibraryUsageDescription</key>
+    	<string>Our App uses the Photo Library to updating profile, cover photo and enhancing user experience with uploaded images  </string>
+	    <key>NSCameraUsageDescription</key>
+	    <string>Our app uses the camera for updating profile, cover photo and enhancing user experience with uploaded images </string>
 	</dict>
 </plist>
