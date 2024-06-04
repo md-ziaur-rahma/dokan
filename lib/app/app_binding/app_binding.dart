@@ -19,10 +19,10 @@ class AppBinding extends Bindings {
             () => RemoteDataSourceImpl(client: Get.find()));
     Get.lazyPut<AuthRepository>(() => AuthRepositoryImpl(
         remoteDataSource: Get.find(),));
-    Get.lazyPut(() => SplashController());
     Get.lazyPut(() => MainController());
     Get.lazyPut(() => HomeController());
     Get.lazyPut(() => AccountController());
     Get.lazyPut(() => LoginController(Get.find()));
+    Get.lazyPut(() => SplashController());
   }
 }

@@ -3,6 +3,7 @@ import 'package:dokan/app/core/app_sizes.dart';
 import 'package:dokan/app/global_widget/custom_image.dart';
 import 'package:dokan/app/module/main_page/components/main_bottom_nav.dart';
 import 'package:dokan/app/module/main_page/controller/main_controller.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,6 +13,7 @@ class MainScreen extends GetView<MainController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       body: PageView(
         controller: controller.pageController,
         scrollDirection: Axis.horizontal,
@@ -19,52 +21,60 @@ class MainScreen extends GetView<MainController> {
         children: controller.screenList,
       ),
       bottomNavigationBar: Container(
-        height: getWidth(75),
         decoration: BoxDecoration(
-          color: Colors.white,
           borderRadius: BorderRadius.vertical(top: Radius.circular(getWidth(20))),
           boxShadow: [
             BoxShadow(
               blurRadius: 14,
               color: Colors.black.withOpacity(0.08),
-              offset: const Offset(0, -10)
+              offset: const Offset(0,-10)
             )
           ]
         ),
-        child: Obx(() {
-            return Row(
-              children: [
-                MainBottomNav(
-                    icon: AppIcons.home,
-                    onPressed: (){
-                      controller.onPageChange(0);},
-                    isActive: controller.currentIndex.value == 0
-                ),
-                MainBottomNav(
-                    icon: AppIcons.category,
-                    onPressed: (){
-                      controller.onPageChange(1);},
-                    isActive: controller.currentIndex.value == 1
-                ),
-                const Expanded(
-                  child: SizedBox(),
-                ),
-                MainBottomNav(
-                    icon: AppIcons.cart,
-                    onPressed: (){
-                      controller.onPageChange(3);},
-                    isActive: controller.currentIndex.value == 3
-                ),
-                MainBottomNav(
-                    icon: AppIcons.account,
-                    onPressed: (){
-                      controller.onPageChange(4);},
-                    isActive: controller.currentIndex.value == 4
-                ),
-              ],
-            );
-          }
-        )
+        child: ClipRRect(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(getWidth(20))),
+          child: BottomAppBar(
+            notchMargin: 8,
+            clipBehavior: Clip.none,
+            color: Colors.white,
+            padding: EdgeInsets.zero,
+            shape: const CircularNotchedRectangle(),
+            child: Obx(() {
+              return Row(
+                children: [
+                  MainBottomNav(
+                      icon: AppIcons.home,
+                      onPressed: (){
+                        controller.onPageChange(0);},
+                      isActive: controller.currentIndex.value == 0
+                  ),
+                  MainBottomNav(
+                      icon: AppIcons.category,
+                      onPressed: (){
+                        controller.onPageChange(1);},
+                      isActive: controller.currentIndex.value == 1
+                  ),
+                  const Expanded(
+                    child: SizedBox(),
+                  ),
+                  MainBottomNav(
+                      icon: AppIcons.cart,
+                      onPressed: (){
+                        controller.onPageChange(3);},
+                      isActive: controller.currentIndex.value == 3
+                  ),
+                  MainBottomNav(
+                      icon: AppIcons.account,
+                      onPressed: (){
+                        controller.onPageChange(4);},
+                      isActive: controller.currentIndex.value == 4
+                  ),
+                ],
+              );
+            }
+            )
+          ),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(

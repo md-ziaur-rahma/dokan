@@ -19,6 +19,7 @@ class SplashController extends GetxController {
   Future startTime() async {
     final loginController = Get.find<LoginController>();
     bool isLoggedIn = loginController.isLoggedIn;
+    print("is user logged in = $isLoggedIn");
     if(isLoggedIn){
       return Timer(Constants.splashDelay, jumpToHome);
     } else {

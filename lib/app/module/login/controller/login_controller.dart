@@ -39,7 +39,7 @@ class LoginController extends GetxController {
     result.fold(
           (l) => _user = null,
           (r) {
-        user = r;
+        _user = r;
       },
     );
     super.onInit();
@@ -70,7 +70,7 @@ class LoginController extends GetxController {
         Constants.showSnackBar(message: error.message, title: "Error");
       }
     }, (data) async {
-      _user = data;
+      user = data;
       Future.delayed(const Duration(seconds: 2)).then((value) {
         isLoading.value = false;
         userNameController.text = "";
