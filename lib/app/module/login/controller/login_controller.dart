@@ -1,5 +1,7 @@
+import 'package:dartz/dartz.dart';
 import 'package:dokan/app/core/contants.dart';
 import 'package:dokan/app/core/utils.dart';
+import 'package:dokan/app/data/error/failure.dart';
 import 'package:dokan/app/module/login/model/user_login_response_model.dart';
 import 'package:dokan/app/module/login/repository/auth_repository.dart';
 import 'package:dokan/app/routes/routes.dart';
@@ -76,5 +78,11 @@ class LoginController extends GetxController {
         Get.offAndToNamed(Routes.mainScreen);
       });
     });
+  }
+
+  Future<Either<Failure, bool>> userLogout() async {
+    final result = _authRepository.userLogout();
+    _user = null;
+    return result;
   }
 }

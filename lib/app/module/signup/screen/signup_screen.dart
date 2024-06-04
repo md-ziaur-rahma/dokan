@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:dokan/app/core/app_colors.dart';
 import 'package:dokan/app/core/app_icons.dart';
 import 'package:dokan/app/core/app_sizes.dart';
-import 'package:dokan/app/core/utils.dart';
 import 'package:dokan/app/global_widget/app_text_button.dart';
 import 'package:dokan/app/global_widget/custom_edittext.dart';
 import 'package:dokan/app/global_widget/custom_image.dart';
@@ -179,21 +176,29 @@ class SignupScreen extends GetView<SignupController> {
                       margin: const EdgeInsets.symmetric(horizontal: 0),
                       height: getWidth(61),
                       width: screenWidth(),
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.buttonColor,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10))),
-                          onPressed: () {
-                            controller.validationSignupForm(context);
-                          },
-                          child: Text(
-                            "Sign Up",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: getWidth(17),
-                                fontWeight: FontWeight.w500),
-                          )),
+                      child: Obx(() {
+                        if(controller.isLoading.value) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                          return ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.buttonColor,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10))),
+                              onPressed: () {
+                                controller.validationSignupForm(context);
+                              },
+                              child: Text(
+                                "Sign Up",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: getWidth(17),
+                                    fontWeight: FontWeight.w500),
+                              ));
+                        }
+                      ),
                     ),
                     const SizedBox(
                       height: 50,
@@ -285,6 +290,7 @@ class SignupScreen extends GetView<SignupController> {
                           text: "Login",
                           textColor: const Color(0xff2893E3),
                           textSize: 17,
+                          textDecoration: TextDecoration.none,
                           fontWeight: FontWeight.w700,
                         ),
                       ],

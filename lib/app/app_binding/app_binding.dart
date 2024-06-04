@@ -1,4 +1,5 @@
 import 'package:dokan/app/data/data_source/remote_data_source.dart';
+import 'package:dokan/app/module/account/controller/account_controller.dart';
 import 'package:dokan/app/module/home/controller/home_controller.dart';
 import 'package:dokan/app/module/login/controller/login_controller.dart';
 import 'package:dokan/app/module/login/repository/auth_repository.dart';
@@ -21,6 +22,7 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => SplashController());
     Get.lazyPut(() => MainController());
     Get.lazyPut(() => HomeController());
+    Get.lazyPut(() => AccountController());
     Get.lazyPut(() => LoginController(Get.find()));
   }
 }

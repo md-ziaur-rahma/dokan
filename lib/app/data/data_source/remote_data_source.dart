@@ -65,18 +65,25 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     final clientMethod = client.post(uri, headers: headers, body: body);
     final responseJsonBody =
         await callClientWithCatchException(() => clientMethod);
-    return UserLoginResponseModel.fromJson(responseJsonBody);
+    if(responseJsonBody["token"] != null){
+      return UserLoginResponseModel.fromJson(responseJsonBody);
+    } else {
+      throw DataNotFoundException(responseJsonBody["message"],201);
+    }
   }
 
   @override
   Future<String> userRegister(Map<String, dynamic> body) async {
-    final headers = {'Accept': 'application/json'};
+    final headers = {'Accept': 'application/json','Content-Type': 'application/json'};
     final uri = Uri.parse(RemoteUrls.register);
-    // var data = jsonEncode(body);
-    final clientMethod = client.post(uri, headers: headers, body: body);
+    var data = jsonEncode(body);
+    if (kDebugMode) {
+      print(data);
+    }
+    final clientMethod = client.post(uri, headers: headers, body: data);
     final responseJsonBody =
         await callClientWithCatchException(() => clientMethod);
-    if (responseJsonBody["status"] == 200) {
+    if (responseJsonBody["code"] == 200) {
       Get.snackbar('Message', responseJsonBody["message"]);
       return responseJsonBody["message"];
     } else {

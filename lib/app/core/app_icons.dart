@@ -25,6 +25,7 @@ class AppIcons {
   static const String notification = "assets/icons/bell.svg";
   static const String favourite = "assets/icons/heart.svg";
   static const String rightArrow = "assets/icons/right_arrow.svg";
+  static const String logout = "assets/icons/logout.svg";
 
   /// login signup
   static const String facebook = "assets/icons/facebook.svg";

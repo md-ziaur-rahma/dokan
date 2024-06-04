@@ -5,7 +5,6 @@ import 'package:dokan/app/module/login/repository/auth_repository.dart';
 import 'package:dokan/app/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 
 class SignupController extends GetxController {
   final AuthRepository _authRepository;
@@ -32,16 +31,19 @@ class SignupController extends GetxController {
 
   void validationSignupForm(BuildContext context){
     if(nameController.text.isEmpty){
-      Utils.showSnackBar(message: "Username is required");
+      Utils.showSnackBar(message: "Username is required!");
       return;
     } else if(emailController.text.isEmpty) {
-      Utils.showSnackBar(message: "Email is required");
+      Utils.showSnackBar(message: "Email is required!");
+      return;
+    }  else if(!GetUtils.isEmail(emailController.text)) {
+      Utils.showSnackBar(message: "The email is incorrect!");
       return;
     } else if(passwordController.text.isEmpty) {
-      Utils.showSnackBar(message: "Password is required");
+      Utils.showSnackBar(message: "Password is required!");
       return;
     } else if(passwordController.text != confirmPasswordController.text) {
-      Utils.showSnackBar(message: "Password doesn't match");
+      Utils.showSnackBar(message: "Password doesn't match!");
       return;
     }
     register(username: nameController.text, email: emailController.text, password: passwordController.text);
@@ -54,7 +56,7 @@ class SignupController extends GetxController {
     body.addAll({"email": email.trim()});
     body.addAll({"password": password.trim()});
     isLoading.value = true;
-    final result = await _authRepository.login(body);
+    final result = await _authRepository.userRegister(body);
     result.fold((error) {
       if (error.statusCode == 503) {
         register(username: username,email: email,  password: password);
@@ -90,7 +92,7 @@ class SignupController extends GetxController {
       Get.find<LoginController>().user = data;
       Future.delayed(const Duration(seconds: 2)).then((value) {
         isLoading.value = false;
-        Get.offAndToNamed(Routes.mainScreen);
+        Get.offAllNamed(Routes.mainScreen);
       });
     });
   }

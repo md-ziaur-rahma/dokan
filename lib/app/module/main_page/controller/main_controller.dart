@@ -15,10 +15,10 @@ class MainController extends GetxController {
   }
 
   List<Widget> screenList = [
-    HomeScreen(),
-    SizedBox(),
-    SizedBox(),
-    AccountScreen(),
+    const HomeScreen(),
+    const SizedBox(),
+    const SizedBox(),
+    const AccountScreen(),
   ];
 
   void _changePage(int index) {

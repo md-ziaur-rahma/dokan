@@ -1,6 +1,5 @@
 import 'package:dokan/app/core/app_colors.dart';
 import 'package:dokan/app/core/app_icons.dart';
-import 'package:dokan/app/core/app_images.dart';
 import 'package:dokan/app/core/app_sizes.dart';
 import 'package:dokan/app/global_widget/app_text_button.dart';
 import 'package:dokan/app/global_widget/custom_edittext.dart';
@@ -86,6 +85,7 @@ class LoginScreen extends GetView<LoginController> {
                         text: "Forgot Password",
                         textColor: const Color(0xffA4A9AF),
                         textSize: 13,
+                        textDecoration: TextDecoration.none,
                       ),
                     ),
                     SizedBox(height: getWidth(50),),
@@ -188,6 +188,7 @@ class LoginScreen extends GetView<LoginController> {
                         text: "Create New Account",
                         textColor: const Color(0xffA4A9AF),
                         textSize: 17,
+                        textDecoration: TextDecoration.none,
                         fontWeight: FontWeight.w300,
                       ),
                     ),

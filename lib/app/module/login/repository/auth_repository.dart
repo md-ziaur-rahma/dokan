@@ -18,6 +18,7 @@ abstract class AuthRepository {
   /// get user login response from sharedPreferences
   Either<Failure, UserLoginResponseModel> getCashedUserInfo();
 
+  Either<Failure, bool> userLogout();
 }
 
 class AuthRepositoryImpl extends AuthRepository {
@@ -72,6 +73,16 @@ class AuthRepositoryImpl extends AuthRepository {
       } else {
         return const Left(DatabaseFailure("Not cached yet"));
       }
+    } on DatabaseException catch (e) {
+      return Left(DatabaseFailure(e.message));
+    }
+  }
+
+  @override
+  Either<Failure, bool> userLogout() {
+    try {
+      sharedPreferences.remove(MySharedPreference.cachedUserResponseKey);
+      return const Right(true);
     } on DatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
     }

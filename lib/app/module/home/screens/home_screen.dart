@@ -1,6 +1,5 @@
 import 'package:dokan/app/core/app_colors.dart';
 import 'package:dokan/app/core/app_icons.dart';
-import 'package:dokan/app/core/app_images.dart';
 import 'package:dokan/app/core/app_sizes.dart';
 import 'package:dokan/app/core/utils.dart';
 import 'package:dokan/app/global_widget/custom_image.dart';
@@ -126,7 +125,9 @@ class HomeScreen extends GetView<HomeController> {
                                               backgroundColor: Colors.white,
                                               side: const BorderSide(color: Color(0xffD2DBE0)),
                                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
-                                          onPressed: (){},
+                                          onPressed: (){
+                                            Get.back();
+                                          },
                                           child: const Text("Cancel",style: TextStyle(color: Color(0xff818995)),),
                                         ),
                                       ),
@@ -142,7 +143,10 @@ class HomeScreen extends GetView<HomeController> {
                                               backgroundColor: const Color(0xff1ABC9C),
                                               foregroundColor: Colors.white,
                                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
-                                          onPressed: (){},
+                                          onPressed: (){
+                                            controller.filterApply();
+                                            Get.back();
+                                          },
                                           child: const Text("Apply",style: TextStyle(),),
                                         ),
                                       ),
@@ -244,11 +248,11 @@ class HomeScreen extends GetView<HomeController> {
                                         ),
                                         RichText(
                                           text: TextSpan(
-                                            text: controller.isShowCuttedPrice(index) ? "\$${controller.productList[index].price} " : "",
+                                            text: controller.isShowCuttedPrice(index) ? "\$${controller.productList[index].regularPrice} " : "",
                                             style: TextStyle(color: const Color(0xff989FA8),fontSize: getWidth(18),decoration: TextDecoration.lineThrough),
                                             children: <TextSpan>[
                                               TextSpan(
-                                                text: "\$${controller.productList[index].regularPrice}",
+                                                text: "\$${controller.productList[index].salePrice}",
                                                 style: TextStyle(color: Colors.black,fontSize: getWidth(18),decoration: TextDecoration.none),
                                               )
                                             ]
@@ -260,7 +264,6 @@ class HomeScreen extends GetView<HomeController> {
                                         Row(
                                           children: [
                                             ...List.generate(5, (index){
-                                              print("rating = ${Utils.toInt(controller.productList[index].averageRating)}");
                                               return Icon(Icons.star,
                                                 size: getWidth(14),
                                                 color: index >= Utils.toInt("3.5") ? const Color(0xffD3D8E5) : const Color(0xffF5A623),);
@@ -281,7 +284,10 @@ class HomeScreen extends GetView<HomeController> {
                 }
               ),
             ),
-          )
+          ),
+          const SliverToBoxAdapter(
+            child: SizedBox(height: 50,),
+          ),
         ],
       ),
     );

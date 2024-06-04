@@ -7,7 +7,7 @@ class AccountButton extends StatelessWidget {
   const AccountButton({super.key, required this.title, required this.icon, required this.onPressed, this.topRadius, this.bottomRadius});
   final String title;
   final String icon;
-  final Function onPressed;
+  final Function? onPressed;
   final double? topRadius;
   final double? bottomRadius;
 
@@ -18,7 +18,9 @@ class AccountButton extends StatelessWidget {
       borderRadius: BorderRadius.vertical(top: Radius.circular(getWidth(topRadius ?? 0)),bottom: Radius.circular(getWidth(bottomRadius ?? 0))),
       child: InkWell(
         borderRadius: BorderRadius.vertical(top: Radius.circular(getWidth(topRadius ?? 0)),bottom: Radius.circular(getWidth(bottomRadius ?? 0))),
-        onTap: null,
+        onTap: onPressed == null ? null : (){
+          onPressed!();
+        },
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: getWidth(16),vertical: getWidth(16)),
           child: Row(
@@ -26,7 +28,12 @@ class AccountButton extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: [
-              CustomImage(path: icon),
+              ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxWidth: 24,
+                  maxHeight: 24
+                ),
+                  child: CustomImage(path: icon,color: const Color(0xff7C8592),)),
               SizedBox(width: getWidth(16),),
               Expanded(
                 child: Text(title,

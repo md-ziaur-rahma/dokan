@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class Constants {
   static Duration kDuration = const Duration(seconds: 3);
   static const delayTime = Duration(seconds: 3);
-  static const splashDelay = Duration(milliseconds: 1500);
+  static const splashDelay = Duration(milliseconds: 2500);
   static const quicksandFont = "Quicksand";
   static const nunito = "Nunito";
   static DateFormat dateFormat = DateFormat("yyyy-MM-dd");

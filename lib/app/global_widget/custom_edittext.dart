@@ -176,65 +176,16 @@ class CustomEditText {
         // isDense: true,
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: AppColors.textBorderColor)),
+            borderSide: BorderSide(color: AppColors.textBorderColor.withOpacity(0.12))),
         errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: const BorderSide(color: Colors.red)),
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: AppColors.textBorderColor)),
+            borderSide: BorderSide(color: AppColors.textBorderColor.withOpacity(0.12))),
         enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: AppColors.textBorderColor)),
-      ),
-    );
-  }
-
-  passwordEditText(TextEditingController controller, String? text, String hintText,) {
-    return TextFormField(
-      controller: controller,
-      keyboardType: TextInputType.visiblePassword,
-      // obscureText: controller.obscureText.value,
-      textInputAction: TextInputAction.done,
-      maxLines: 1,
-      onSaved: (String? val) {
-        text = val;
-      },
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: Colors.white,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 16),
-        hintText: 'Password*',
-        hintStyle: TextStyle(color: AppColors.ashTextColor),
-        // labelText: 'Password*',
-        isDense: true,
-        suffixIcon: IconButton(
-          onPressed: () {
-            // controller.toggle();
-          },
-          // icon: controller.obscureText.value
-          icon: false
-              ? const Icon(
-                  Icons.visibility_off,
-                  color: Colors.black54,
-                )
-              : const Icon(
-                  Icons.visibility,
-                  color: Colors.black54,
-                ),
-        ),
-        focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: AppColors.textColor),
-        ),
-        errorBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.red.withOpacity(0.7)),
-        ),
-        border: UnderlineInputBorder(
-          borderSide: BorderSide(color: AppColors.ashTextColor),
-        ),
-        enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: AppColors.ashTextColor),
-        ),
+            borderSide: BorderSide(color: AppColors.textBorderColor.withOpacity(0.12))),
       ),
     );
   }

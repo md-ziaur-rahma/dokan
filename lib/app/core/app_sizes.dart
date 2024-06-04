@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
 class AppSizes {
   static late MediaQueryData _mediaQueryData;
   static late double width;
