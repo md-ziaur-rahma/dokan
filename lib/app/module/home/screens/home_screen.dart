@@ -189,6 +189,7 @@ class HomeScreen extends GetView<HomeController> {
                   return const Center(child: CircularProgressIndicator());
                 }
                   return GridView.builder(
+                    padding: EdgeInsets.zero,
                     itemCount: controller.productList.length,
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
@@ -286,7 +287,7 @@ class HomeScreen extends GetView<HomeController> {
             ),
           ),
           const SliverToBoxAdapter(
-            child: SizedBox(height: 50,),
+            child: SizedBox(height: 100,),
           ),
         ],
       ),

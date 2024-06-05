@@ -12,6 +12,7 @@ class SplashController extends GetxController {
 
   @override
   void onInit() {
+    FlutterNativeSplash.remove();
     super.onInit();
     startTime();
   }
@@ -19,7 +20,6 @@ class SplashController extends GetxController {
   Future startTime() async {
     final loginController = Get.find<LoginController>();
     bool isLoggedIn = loginController.isLoggedIn;
-    print("is user logged in = $isLoggedIn");
     if(isLoggedIn){
       return Timer(Constants.splashDelay, jumpToHome);
     } else {
@@ -28,11 +28,9 @@ class SplashController extends GetxController {
   }
 
   void jumpToHome() {
-    FlutterNativeSplash.remove();
     Get.offAllNamed(Routes.mainScreen);
   }
   void jumpToLogin() {
-    FlutterNativeSplash.remove();
     Get.offAllNamed(Routes.login);
   }
 }

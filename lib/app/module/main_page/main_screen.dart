@@ -1,10 +1,11 @@
+import 'package:dokan/app/core/app_colors.dart';
 import 'package:dokan/app/core/app_icons.dart';
 import 'package:dokan/app/core/app_sizes.dart';
 import 'package:dokan/app/global_widget/custom_image.dart';
 import 'package:dokan/app/module/main_page/components/main_bottom_nav.dart';
 import 'package:dokan/app/module/main_page/controller/main_controller.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class MainScreen extends GetView<MainController> {
@@ -12,6 +13,10 @@ class MainScreen extends GetView<MainController> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: AppColors.pageBackground2,
+      statusBarIconBrightness: Brightness.dark,
+    ));
     return Scaffold(
       extendBody: true,
       body: PageView(

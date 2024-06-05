@@ -7,6 +7,7 @@ import 'package:dokan/app/global_widget/custom_image.dart';
 import 'package:dokan/app/module/login/controller/login_controller.dart';
 import 'package:dokan/app/routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class LoginScreen extends GetView<LoginController> {
@@ -14,6 +15,10 @@ class LoginScreen extends GetView<LoginController> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: AppColors.pageBackground2,
+      statusBarIconBrightness: Brightness.dark,
+    ));
     return Scaffold(
       backgroundColor: AppColors.pageBackground2,
       body: SafeArea(
