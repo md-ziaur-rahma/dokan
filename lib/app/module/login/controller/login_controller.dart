@@ -14,8 +14,8 @@ class LoginController extends GetxController {
 
   var isLoading = false.obs;
 
-  var userNameController = TextEditingController(text: "Ziaur Rahman");
-  var passwordController = TextEditingController(text: "123456");
+  var userNameController = TextEditingController();
+  var passwordController = TextEditingController();
   var toggle = false.obs;
 
   UserLoginResponseModel? _user;
