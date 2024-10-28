@@ -1,1 +1,173 @@
 
+import 'dart:convert';
+
+import 'package:clinicall/app/core/utils.dart';
+import 'package:clinicall/app/routes/routes.dart';
+import 'package:clinicall/app/service/app_lifecycle_reactor.dart';
+import 'package:clinicall/app/service/seignalling_service.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_callkit_incoming/entities/android_params.dart';
+import 'package:flutter_callkit_incoming/entities/call_event.dart';
+import 'package:flutter_callkit_incoming/entities/call_kit_params.dart';
+import 'package:flutter_callkit_incoming/entities/ios_params.dart';
+import 'package:flutter_callkit_incoming/entities/notification_params.dart';
+import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
+import 'package:get/get.dart';
+import 'package:uuid/uuid.dart';
+
+class CallManager {
+  static bool isInCall = false;
+  static void incomingCall({dynamic callInfo = const {}}) async {
+    print("caller info : ${callInfo["callerName"]}/${callInfo["callerImage"]}");
+    var uuid = const Uuid();
+    CallKitParams callKitParams = CallKitParams(
+      id: uuid.v4(),
+      nameCaller: '${callInfo["callerName"] ?? "Caller Name"}',
+      appName: 'CliniCall',
+      avatar: '${callInfo["callerImage"] ?? "https://i.pravatar.cc/100"}',
+      handle: '0123456789',
+      type: 1,
+      textAccept: 'Accept',
+      textDecline: 'Decline',
+      missedCallNotification: const NotificationParams(
+        showNotification: true,
+        isShowCallback: true,
+        subtitle: 'Missed call',
+        callbackText: 'Call back',
+      ),
+      duration: 30000,
+      extra: callInfo,
+      headers: <String, dynamic>{'apiKey': 'Abc@123!', 'platform': 'flutter'},
+      android: const AndroidParams(
+          isCustomNotification: true,
+          isShowLogo: false,
+          ringtonePath: 'system_ringtone_default',
+          backgroundColor: '#0955fa',
+          backgroundUrl: 'https://i.pravatar.cc/500',
+          actionColor: '#4CAF50',
+          textColor: '#ffffff',
+          incomingCallNotificationChannelName: "Incoming Call",
+          missedCallNotificationChannelName: "Missed Call",
+          isShowCallID: false
+      ),
+      ios: const IOSParams(
+        iconName: 'CallKitLogo',
+        handleType: 'generic',
+        supportsVideo: true,
+        maximumCallGroups: 2,
+        maximumCallsPerCallGroup: 1,
+        audioSessionMode: 'default',
+        audioSessionActive: true,
+        audioSessionPreferredSampleRate: 44100.0,
+        audioSessionPreferredIOBufferDuration: 0.005,
+        supportsDTMF: true,
+        supportsHolding: true,
+        supportsGrouping: false,
+        supportsUngrouping: false,
+        ringtonePath: 'system_ringtone_default',
+      ),
+    );
+    await FlutterCallkitIncoming.showCallkitIncoming(callKitParams);
+  }
+  static void callListener() async {
+    FlutterCallkitIncoming.onEvent.listen((CallEvent? event) async {
+      switch (event!.event) {
+        case Event.actionCallIncoming:
+          isInCall = true;
+        // if (appState == MyAppState.terminated) {
+        //   Get.toNamed(Routes.initial);
+        // } else if (appState == MyAppState.background) {
+        //   print(">>>>>>>>> in background <<<<<<<");
+        // }
+          break;
+        case Event.actionCallStart:
+          isInCall = true;
+        // TODO: started an outgoing call
+        // TODO: show screen calling in Flutter
+          break;
+        case Event.actionCallAccept:
+          isInCall = false;
+        // await FlutterCallkitIncoming.activeCalls();
+          print("call info : ${event.body["extra"]}");
+          if(appState == MyAppState.terminated){
+            Future.delayed(const Duration(seconds: 2)).then((value){
+              var body = json.decode(jsonEncode(event.body["extra"]));
+              Utils.showSnackBar(message: "Call Accepted");
+              Get.toNamed(Routes.callScreen,
+                  arguments: {"callerId": body["callerId"],
+                    "offer": body["offer"],
+                    "name": body["callerName"] ?? "Caller Name",
+                    "profileImage": body["callerImage"] ?? ""});
+            });
+          } else {
+            var body = json.decode(jsonEncode(event.body["extra"]));
+            Utils.showSnackBar(message: "Call Accepted");
+            Get.toNamed(Routes.callScreen,
+                arguments: {"callerId": body["callerId"],
+                  "offer": body["offer"],
+                  "name": body["callerName"] ?? "Caller Name",
+                  "profileImage": body["callerImage"] ?? ""});
+          }
+          break;
+        case Event.actionCallDecline:
+          isInCall = false;
+          var body = json.decode(jsonEncode(event.body["extra"]));
+          // FlutterCallkitIncoming.endAllCalls();
+          SignallingService.instance.socket!.emit('reject-call', {
+            "callerId": body["callerId"],
+          });
+          break;
+        case Event.actionCallEnded:
+          isInCall = false;
+          FlutterCallkitIncoming.endAllCalls();
+          // SignallingService.instance.socket!.emit('reject-call', {
+          //   "callerId": event.body["callerId"],
+          // });
+          if (kDebugMode) {
+            print("((((((( Ended Calling )))))))");
+          }
+          break;
+        case Event.actionCallTimeout:
+          isInCall = false;
+        // TODO: missed an incoming call
+          break;
+        case Event.actionCallCallback:
+          isInCall = true;
+          var body = json.decode(jsonEncode(event.body["extra"]));
+          Get.toNamed(Routes.callScreen,
+              arguments: {"callerId": '${body["receiverId"]}',
+                "receiverId": "${body["callerId"]}",
+                "name": "${body["callerName"]}",
+                "profileImage": "${body["callerImage"]}",
+                "token": "${body["callerId"]}",
+              });
+          if (kDebugMode) {
+            print("((((((( Call Back start )))))))");
+          }
+          break;
+        case Event.actionCallToggleHold:
+        // TODO: only iOS
+          break;
+        case Event.actionCallToggleMute:
+        // TODO: only iOS
+          break;
+        case Event.actionCallToggleDmtf:
+        // TODO: only iOS
+          break;
+        case Event.actionCallToggleGroup:
+        // TODO: only iOS
+          break;
+        case Event.actionCallToggleAudioSession:
+        // TODO: only iOS
+          break;
+        case Event.actionDidUpdateDevicePushTokenVoip:
+        // TODO: only iOS
+          break;
+        case Event.actionCallCustom:
+        // TODO: for custom action
+          break;
+      }
+    });
+  }
+
+}
